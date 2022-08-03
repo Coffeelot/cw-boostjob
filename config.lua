@@ -30,7 +30,7 @@ local locations = {
             { model = 'g_m_y_mexgang_01', weapon = 'weapon_pistol' },
             { model = 'g_m_y_mexgang_01', weapon = 'weapon_pistol' },
         },
-        GuardPostions = {
+        GuardPositions = {
             vector4(1381.07, 1149.81, 114.33, 87.54),
             vector4(1386.84, 1126.88, 114.33, 89.23),
             vector4(1414.17, 1138.47, 114.33, 278.73)
@@ -53,7 +53,7 @@ local locations = {
             { model = 'g_m_y_armgoon_02', weapon = 'weapon_pistol' },
             { model = 'g_m_y_armgoon_02', weapon = 'weapon_machinepistol', accuracy = 5 },
         },
-        GuardPostions = {
+        GuardPositions = {
             vector4(-113.27, 983.92, 235.76, 108.41),
             vector4(-105.51, 974.53, 235.76, 200.63),
             vector4(-102.46, 975.78, 235.76, 199.94),
@@ -80,7 +80,7 @@ local locations = {
             { model = 'mp_m_securoguard_01', weapon = 'weapon_pistol' },
             { model = 'mp_m_securoguard_01', weapon = 'weapon_pistol' },
         },
-        GuardPostions = {
+        GuardPositions = {
             vector4(-135.76, 899.35, 235.66, 283.48),
             vector4(-139.0, 881.63, 233.48, 133.12),
             vector4(-160.7, 925.8, 239.94, 291.47)

@@ -369,7 +369,12 @@ local function SpawnGuards()
     SetPedRelationshipGroupHash(ped, 'PLAYER')
     AddRelationshipGroup('npcguards')
     
-    local listOfGuardPositions = shallowCopy(CurrentJobLocation.GuardPostions) -- these are used if random positions
+    
+    local listOfGuardPositions = nil
+    if CurrentJobLocation.GuardPositions ~= nil then
+        listOfGuardPositions = shallowCopy(CurrentJobLocation.GuardPositions) -- these are used if random positions
+    end
+
     for k, v in pairs(CurrentJobLocation.Guards) do
         local guardPosition = v.coords
         if guardPosition == nil then
@@ -427,8 +432,13 @@ local function SpawnCivilians()
     SetPedRelationshipGroupHash(ped, 'PLAYER')
     AddRelationshipGroup('npccivilians')
     
-    if CurrentJobLocation.Civilians then 
-        local listOfCivilianPositions = shallowCopy(CurrentJobLocation.CivilianPositions) -- these are used if random positions
+    if CurrentJobLocation.Civilians then
+
+        local listOfCivilianPositions = nil
+        if CurrentJobLocation.CivilianPositions ~= nil then
+            listOfCivilianPositions = shallowCopy(CurrentJobLocation.CivilianPositions) -- these are used if random positions
+        end
+        
         for k, v in pairs(CurrentJobLocation.Civilians) do
             local civPosition = v.coords
             if civPosition == nil then
