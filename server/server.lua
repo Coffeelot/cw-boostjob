@@ -4,7 +4,7 @@ local Cooldown = false
 
 
 
-RegisterServerEvent('cw-boostjob:server:startr', function(jobId)
+RegisterServerEvent('cw-swapjob:server:startr', function(jobId)
     local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
     
@@ -14,14 +14,14 @@ RegisterServerEvent('cw-boostjob:server:startr', function(jobId)
         Player.Functions.RemoveItem('swap_token', 1)
         TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['swap_token'], "remove")
         TriggerClientEvent('QBCore:Notify', src, Lang:t("success.send_email_right_now"), 'success')
-        TriggerEvent('cw-boostjob:server:coolout')
-		TriggerClientEvent('cw-boostjob:client:runactivate', src)
+        TriggerEvent('cw-swapjob:server:coolout')
+		TriggerClientEvent('cw-swapjob:client:runactivate', src)
 	else
 		TriggerClientEvent('QBCore:Notify', source, Lang:t("error.you_dont_have_enough_money"), 'error')
 	end
 end)
 
-RegisterServerEvent('cw-boostjob:server:giveSlip', function(model)
+RegisterServerEvent('cw-swapjob:server:giveSlip', function(model)
     local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
     local item = 'swap_slip'
@@ -35,7 +35,7 @@ end)
 
 
 -- cool down for job
-RegisterServerEvent('cw-boostjob:server:coolout', function()
+RegisterServerEvent('cw-swapjob:server:coolout', function()
     Cooldown = true
     local timer = Config.Cooldown * 1000
     while timer > 0 do
@@ -47,7 +47,7 @@ RegisterServerEvent('cw-boostjob:server:coolout', function()
     end
 end)
 
-QBCore.Functions.CreateCallback("cw-boostjob:server:coolc",function(source, cb)
+QBCore.Functions.CreateCallback("cw-swapjob:server:coolc",function(source, cb)
     
     if Cooldown then
         cb(true)
