@@ -74,7 +74,7 @@ CreateThread(function()
     for i,v in pairs(Config.Jobs) do
         local option = { 
             type = "client",
-            event = "cw-swapjob:client:start",
+            event = "cw-boostjob:client:start",
             jobId = i,
             icon = "fas fa-circle",
             label = v.MissionDescription,
@@ -185,7 +185,7 @@ local function CarTurnedInMessage()
 	})
 
     QBCore.Functions.Notify(Lang:t("info.paperslip"), 'success')
-    TriggerServerEvent('cw-swapjob:server:giveSlip', CurrentJob.Model)
+    TriggerServerEvent('cw-boostjob:server:giveSlip', CurrentJob.Model)
     currentJobId = nil
     CurrentJobLocation = nil
     CurrentJob = nil
@@ -487,7 +487,7 @@ local function CheckForCar()
     end)
 end
 
-RegisterNetEvent('cw-swapjob:client:runactivate', function()
+RegisterNetEvent('cw-boostjob:client:runactivate', function()
     RunStart()
     Citizen.Wait(4)
     SpawnGuards()
@@ -498,7 +498,7 @@ RegisterNetEvent('cw-swapjob:client:runactivate', function()
     CheckForCar()
 end)
 
-RegisterNetEvent('cw-swapjob:client:start', function (data)
+RegisterNetEvent('cw-boostjob:client:start', function (data)
     if CurrentCops >= Config.Jobs[data.jobId].MinimumPolice then
         currentJobId = data.jobId
 
@@ -506,7 +506,7 @@ RegisterNetEvent('cw-swapjob:client:start', function (data)
         local rand = math.random(1, #CurrentJob.Locations)
         CurrentJobLocation = CurrentJob.Locations[rand]
 
-        QBCore.Functions.TriggerCallback("cw-swapjob:server:coolc",function(isCooldown)
+        QBCore.Functions.TriggerCallback("cw-boostjob:server:coolc",function(isCooldown)
             if not isCooldown then
                 TriggerEvent('animations:client:EmoteCommandStart', {"idle11"})
                 QBCore.Functions.Progressbar("start_job", Lang:t('info.talking_to_boss'), 10000, false, true, {
@@ -517,7 +517,7 @@ RegisterNetEvent('cw-swapjob:client:start', function (data)
                 }, {
                 }, {}, {}, function() -- Done
                     TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-                    TriggerServerEvent('cw-swapjob:server:startr', currentJobId)
+                    TriggerServerEvent('cw-boostjob:server:startr', currentJobId)
                     onRun = true
                 end, function() -- Cancel
                     TriggerEvent('animations:client:EmoteCommandStart', {"c"})
@@ -543,7 +543,7 @@ local function MinigameSuccess()
     }, {}, {}, function() -- Done
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
         RemoveBlip(case)
-        TriggerServerEvent('cw-swapjob:server:unlock')
+        TriggerServerEvent('cw-boostjob:server:unlock')
 
         local playerPedPos = GetEntityCoords(PlayerPedId(), true)
         local case = GetClosestObjectOfType(playerPedPos, 10.0, Config.Jobs[currentJobId].Items.FetchItemProp, false, false, false)
@@ -620,7 +620,7 @@ local function StartMinigame()
     end
 end
 
-RegisterNetEvent('cw-swapjob:client:items', function()
+RegisterNetEvent('cw-boostjob:client:items', function()
     QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
         if result then
             TriggerEvent("qb-dispatch:raidJob")
@@ -633,5 +633,5 @@ end)
 
 
 RegisterCommand('swap', function (input)
-    TriggerEvent('cw-swapjob:client:start', input)
+    TriggerEvent('cw-boostjob:client:start', input)
 end)
