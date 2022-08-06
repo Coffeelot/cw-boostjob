@@ -2,12 +2,12 @@
 
 This script adds car boosting jobs. To be able to take these you need an item, a special token (You have to add these to your server circlation yourself but the item is included in the script). The jobs are fairly straight forward: When you got the token, head over to Hector, the guy who gives you the missions. If you have a token you can pick any job, but you need to pay the entry fee. Hector will give you a location of where the car is. Head over there. Some jobs you can sneak and steal without even firing a single bullet, but some might take more brute force. Steal the car and wait for the tracker to turn off. When it's off Hector will give you the GPS location for the dropoff spot. Deliver the car and you will be handed a slip that says Hector owes you some parts. You can take these slips to any  [cw-vehicleswap](https://github.com/Coffeelot/cw-vehicleswap) spot that does special jobs, and if you have the correct car you can get it modified.
 
-Only includes 3 jobs and 3 locations. Up to you to add what you want! The slip you get will hold the value of the name of the car you take.
+Only includes 3 jobs and 3 locations. Up to you to add what you want to add! The slip you get will hold the value of the name of the car you take, so it will work with any type of car you add to this script. All you need to do is add a special swap in [cw-vehicleswap](https://github.com/Coffeelot/cw-vehicleswap) where that model is used, see the special swaps in the bottom of the config for examples.
 
 This is a companion script for [cw-vehicleswap](https://github.com/Coffeelot/cw-vehicleswap).
 
-# Preview 
-COMING SOON
+# Preview 📽
+[![YOUTUBE VIDEO](http://img.youtube.com/vi/3BmZ8fIAXpg/0.jpg)](https://youtu.be/3BmZ8fIAXpg)
 
 # Developed by Coffeelot and Wuggie
 [More scripts by us](https://github.com/stars/Coffeelot/lists/cw-scripts)  👈\
