@@ -498,6 +498,7 @@ local function CheckForCar()
 end
 
 RegisterNetEvent('cw-boostjob:client:runactivate', function()
+    onRun = true
     RunStart()
     Citizen.Wait(4)
     SpawnGuards()
@@ -528,7 +529,6 @@ RegisterNetEvent('cw-boostjob:client:start', function (data)
                 }, {}, {}, function() -- Done
                     TriggerEvent('animations:client:EmoteCommandStart', {"c"})
                     TriggerServerEvent('cw-boostjob:server:startr', currentJobId)
-                    onRun = true
                 end, function() -- Cancel
                     TriggerEvent('animations:client:EmoteCommandStart', {"c"})
                     QBCore.Functions.Notify(Lang:t("error.canceled"), 'error')
