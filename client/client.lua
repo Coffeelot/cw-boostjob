@@ -200,8 +200,8 @@ end
 
 local function carGps()
     -- TODO Fix police gps
-    TriggerEvent('cw-boostjob:client:carTheftCall')
     if QBCore.Functions.GetPlayerData().job.name == 'police' then
+        TriggerEvent('cw-boostjob:client:carTheftCall')
         local vehicleCoords = GetEntityCoords(MissionVehicle)
         policeBlip = AddBlipForEntity(MissionVehicle)
         SetBlipSprite(policeBlip, 161)
