@@ -97,6 +97,47 @@ local locations = {
          },
         VehiclePosition = vector4(-167.6, 918.7, 234.99, 316.02)
     },
+    burroHeights = {
+        Guards = {
+            { model = 'a_m_m_soucent_01', weapon = 'weapon_pistol' },
+            { model = 'g_m_m_armlieut_01', weapon = 'weapon_pistol' },
+            { model = 'g_m_importexport_01', weapon = 'weapon_machinepistol', accuracy = 5 },
+        },
+        GuardPositions = {
+            vector4(1455.68, -2592.61, 48.63, 308.67),
+            vector4(1437.89, -2587.03, 48.11, 105.84),
+            vector4(1425.79, -2581.05, 47.98, 23.34),
+            vector4(1437.89, -2591.51, 48.13, 67.2),
+        },
+        Civilians = {
+            { model = 'a_f_y_soucent_02', animation = 'WORLD_HUMAN_AA_COFFEE' },
+            { model = 'a_m_m_beach_01', animation = 'WORLD_HUMAN_AA_COFFEE' },
+            { model = 'g_m_m_korboss_01', animation = 'WORLD_HUMAN_DRINKING' },
+            { model = 'a_f_y_soucent_03', animation = 'WORLD_HUMAN_STAND_MOBILE' },
+            { model = 's_m_y_strvend_01', animation = 'WORLD_HUMAN_STAND_MOBILE' },
+            { model = 'mp_m_weapexp_01', animation = 'WORLD_HUMAN_AA_SMOKE' },
+            { model = 'a_m_y_smartcaspat_01', animation = 'WORLD_HUMAN_LEANING', coords = vector4(1450.54, -2622.54, 48.68, 339.93)},
+        },
+        CivilianPositions = {
+            vector4(1450.23, -2615.93, 48.48, 351.78),
+            vector4(1450.61, -2613.47, 48.47, 169.65),
+            vector4(1447.17, -2606.22, 48.35, 90.46),
+            vector4(1445.33, -2606.25, 48.32, 268.93),
+            vector4(1436.39, -2613.77, 48.21, 184.89),
+            vector4(1436.69, -2615.56, 48.22, 2.8),
+        },
+        GuardCars = { 
+            { model = 'dominator8', coords = vector4(1440.42, -2610.3, 48.26, 167.29) },
+            { model = 'rapidgt3', coords = vector4(1443.48, -2612.07, 48.32, 164.42) },
+            { model = 'landstalker2', coords = vector4(1454.43, -2600.34, 48.46, 18.42) },
+            { model = 'cavalcade', coords = vector4(1448.66, -2589.8, 48.27, 58.67) },
+            { model = 'burrito', coords = vector4(1441.72, -2593.62, 48.0, 86.87) },
+            { model = 'sultan', coords = vector4(1434.61, -2605.74, 47.96, 325.5) },
+            { model = 'elegy2', coords = vector4(1433.41, -2593.35, 48.09, 137.91) },
+            { model = 'jb7002', coords = vector4(1453.71, -2614.1, 48.53, 163.54) }
+         },
+        VehiclePosition = vector4(1446.97, -2612.22, 48.39, 164.47)
+    },
 }
 -- ElegyRetro job
 
@@ -154,8 +195,8 @@ local SultanRSJob = {
     MinimumPolice = 0,
     Locations = {
         --locations.lafuenta,
-        --locations.lakevinewood,
-        locations.lakevinewood2
+        locations.lakevinewood,
+        locations.burroHeights
     }
 }
 
