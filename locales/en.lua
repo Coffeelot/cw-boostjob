@@ -12,7 +12,8 @@ local Translations = {
         ["you_removed_first_security_case"]     = "You removed the the first layer of security on the case",
         ["you_got_paid"]                        = "You got paid",
         ["send_email_right_now"]                 = "I will send you an e-mail right now!",
-        ["case_beep"]                           = "There is something beeping??",
+        ["car_beep"]                           = "There is something beeping??",
+        ["car_beep_stop"]                           = "The beeping stopped.",
     },
     info = {
         ["talking_to_boss"]             = "Talking to Hector..",
@@ -24,18 +25,21 @@ local Translations = {
     mailstart = {
         ["sender"]                      = "Unknown",
         ["subject"]                     = "Vehicle Location",
-        ["message"]                     = "Updated your gps with the location to a vehicle I got a tip about that contains a briefcase. Retrieve whats inside it and bring it back to me. I've given you a special key that would be used to remove the first layer of security on the case.",
+        ["message"]                     = "Updated your gps with the location to the vehicle.",
     },
-    mail = {
+    mailSecond = {
         ["sender"]                      = "Unknown",
-        ["subject"]                     = "Goods Collection",
-        ["message"]                     = "Looks like you got the goods, the case should unlock automatically 5 minutes after you unlocked the first layer of security on it. Once completed bring back the items to me and get paid.",
+        ["subject"]                     = "Car Collection",
+        ["message"]                     = "Looks like you got the Car. There might be a tracker. I'll send you the dropoff location when it's safe.",
     },
     mailEnd = {
         ["sender"]                      = "Unknown",
         ["subject"]                     = "Goods Delivered",
         ["message"]                     = "Good job. Take the slip to someone who knows what to do",
     },
+    police = {
+        ["alert"]                       = " Car Theft In Progress (Tracker active): "
+    }
 }
 
 Lang = Locale:new({

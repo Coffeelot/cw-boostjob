@@ -103,7 +103,7 @@ local locations = {
 local ElegyRetroJob = {
     Model = 'elegy',
     RunCost = 1000,
-    Timer = 2000,
+    Timer = 30000,
     MissionDescription = "Elegy Retro",
     Messages = {
         First = {
@@ -114,7 +114,7 @@ local ElegyRetroJob = {
         Second = {
             Sender = 'Hector',
             Subject = 'Stuff',
-            Message = "You got the car? Wicked.. I'll send you the gps coordinates for the delivery spot. If you bring cops you're done."
+            Message = "You got the Elegy? Nice.. I'll send you the gps coordinates for the delivery spot once it's safe. If you bring cops you're done."
         },
         Third = {
             Sender = 'Hector',
@@ -143,7 +143,7 @@ local SultanRSJob = {
         Second = {
             Sender = 'Hector',
             Subject = 'Stuff',
-            Message = "You got the car? Wicked.. I'll send you the gps coordinates for the delivery spot. If you bring cops you're done."
+            Message = "You got the car? Wicked.. I'll send you the gps coordinates for the delivery spot once it's safe. If you bring cops you're done."
         },
         Third = {
             Sender = 'Hector',
@@ -173,7 +173,7 @@ local BansheeJob = {
         Second = {
             Sender = 'Hector',
             Subject = 'Stuff',
-            Message = "You got the car? Wicked.. I'll send you the gps coordinates for the delivery spot. If you bring cops you're done."
+            Message = "You got the Banshee? When it's safe I'll drop you the location of where to leave it. If you bring cops you're done."
         },
         Third = {
             Sender = 'Hector',

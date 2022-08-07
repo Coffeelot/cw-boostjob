@@ -1,5 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject() 
 
+local isLoggedIn = LocalPlayer.state['isLoggedIn']
 local VehicleCoords = nil
 local MissionVehicle = nil
 local CurrentCops = 0
@@ -13,6 +14,7 @@ local DropoffSpot = nil
 local DropoffSpotData = nil
 local Entities = {}
 local vehicleBlip = nil
+local policeBlip = nil
 local deliveryBlip = nil
 local npcs = {
     ['npcguards'] = {},
@@ -165,15 +167,17 @@ local function CarTurnedInMessage()
 	local subject = Lang:t('mailEnd.subject')
 	local message = Lang:t('mailEnd.message')
 
-    if CurrentJob.Messages.Third then
-        if CurrentJob.Messages.Third.Sender then 
-            sender = CurrentJob.Messages.Third.Sender
-        end
-        if CurrentJob.Messages.Third.Subject then
-            subject = CurrentJob.Messages.Third.Subject
-        end
-        if CurrentJob.Messages.Third.Message then
-            message = CurrentJob.Messages.Third.Message
+    if Config.Jobs[currentJobId].Messages then
+        if Config.Jobs[currentJobId].Messages.Third then
+            if Config.Jobs[currentJobId].Messages.Third.Sender then 
+                sender = Config.Jobs[currentJobId].Messages.Third.Sender
+            end
+            if Config.Jobs[currentJobId].Messages.Third.Subject then
+                subject = Config.Jobs[currentJobId].Messages.Third.Subject
+            end
+            if Config.Jobs[currentJobId].Messages.Third.Message then
+                message = Config.Jobs[currentJobId].Messages.Third.Message
+            end
         end
     end
 
@@ -196,13 +200,15 @@ end
 
 local function carGps()
     -- TODO Fix police gps
+    TriggerEvent('cw-boostjob:client:carTheftCall')
     if QBCore.Functions.GetPlayerData().job.name == 'police' then
-        vehicleCoords = GetEntityCoords(MissionVehicle)
-        SetBlipSprite(vehicleCoords, 161)
-        SetBlipScale(vehicleCoords, 1.4)
-        PulseBlip(vehicleCoords)
-        SetBlipColour(vehicleCoords, 2)
-        SetBlipAsShortRange(vehicleCoords, true)
+        local vehicleCoords = GetEntityCoords(MissionVehicle)
+        policeBlip = AddBlipForEntity(MissionVehicle)
+        SetBlipSprite(policeBlip, 161)
+        SetBlipScale(policeBlip, 1.4)
+        PulseBlip(policeBlip)
+        SetBlipColour(policeBlip, 1)
+        SetBlipAsShortRange(policeBlip, true)
     end
 end
 
@@ -210,11 +216,11 @@ local function TurnInCar()
     exports['qb-core']:HideText()
     local player = PlayerPedId()
     local vehicle = GetVehiclePedIsIn(player, false)
-    QBCore.Functions.DeleteVehicle(vehicle)
-    onRun = false
     CarTurnedInMessage()
-    CleanUp()
+    QBCore.Functions.DeleteVehicle(vehicle)
     RemoveBlip(deliveryBlip)
+    CleanUp()
+    onRun = false
 end
 
 local function CheckForKeypress()
@@ -240,6 +246,7 @@ local function SetupInteraction()
 end
 
 local function getDropOffLocation()
+    QBCore.Functions.Notify(Lang:t("success.car_beep_stop"), 'success')
     local rand = math.random(1,#Config.DropoffLocations)
     DropoffLocation = Config.DropoffLocations[rand]
     SetNewWaypoint(DropoffLocation.x, DropoffLocation.y)
@@ -273,11 +280,10 @@ local function getDropOffLocation()
 end
 
 local function CarAquiredMessage()
-    Citizen.Wait(2000)
-    carGps()
-    local sender = Lang:t('mail.sender')
-	local subject = Lang:t('mail.subject')
-	local message = Lang:t('mail.message')
+    Citizen.Wait(5000)
+    local sender = Lang:t('mailSecond.sender')
+	local subject = Lang:t('mailSecond.subject')
+	local message = Lang:t('mailSecond.message')
 
     if Config.Jobs[currentJobId].Messages.Second then
         if Config.Jobs[currentJobId].Messages.Second.Sender then 
@@ -291,17 +297,17 @@ local function CarAquiredMessage()
         end
     end
 
-
 	TriggerServerEvent('qb-phone:server:sendNewMail', {
         sender = sender,
 	    subject = subject,
 	    message = message,
 	})
 
-    QBCore.Functions.Notify(Lang:t("success.case_beep"), 'success')
+    carGps()
+    QBCore.Functions.Notify(Lang:t("success.car_beep"), 'success')
     Citizen.Wait(CurrentJob.Timer)
+    RemoveBlip(policeBlip)
     getDropOffLocation()
-    currentJobId = nil
 end
 
 ---
@@ -483,12 +489,12 @@ local function CheckForCar()
     CreateThread(function()
         local isInVehicle = false
         while not isInVehicle do
-            Wait(3000)
+            Wait(2000)
             -- print(GetVehiclePedIsIn(ped, false) == MissionVehicle)
             if ped then    
                 if GetVehiclePedIsIn(ped, false) == MissionVehicle then 
-                    CarAquiredMessage()
                     RemoveBlip(vehicleBlip)
+                    CarAquiredMessage()
                     isInVehicle = true
                 end
 
@@ -639,6 +645,24 @@ RegisterNetEvent('cw-boostjob:client:items', function()
             QBCore.Functions.Notify(Lang:t("error.you_cannot_do_this"), 'error')
         end
     end, "casekey")
+end)
+
+RegisterNetEvent('cw-boostjob:client:carTheftCall', function()
+    if not isLoggedIn then return end
+    local PlayerJob = QBCore.Functions.GetPlayerData().job
+    if PlayerJob.name == "police" and PlayerJob.onduty then
+        local bank
+        bank = "Fleeca"
+        PlaySound(-1, "Lose_1st", "GTAO_FM_Events_Soundset", 0, 0, 1)
+        local vehicleCoords = GetEntityCoords(MissionVehicle)
+        local s1, s2 = GetStreetNameAtCoord(vehicleCoords.x, vehicleCoords.y, vehicleCoords.z)
+        local street1 = GetStreetNameFromHashKey(s1)
+        local street2 = GetStreetNameFromHashKey(s2)
+        local streetLabel = street1
+        if street2 then streetLabel = streetLabel .. " " .. street2 end
+        local plate = GetVehicleNumberPlateText(MissionVehicle)
+        TriggerServerEvent('police:server:policeAlert', Lang:t("police.alert")..plate)
+    end
 end)
 
 
