@@ -41,6 +41,15 @@ Items to add to qb-core>shared>items.lua
 	["swap_token"] =          {["name"] = "swap_token",         ["label"] = "A weird gold coin",                  ["weight"] = 100, ["type"] = "item", ["image"] = "token.png", ["unique"] = false, ["useable"] = false, ['shouldClose'] = false, ["combinable"] = nil, ["description"] = "Smells a bit like oil and old farming equipment"},
 
 ```
+## Making the names show up in to the Inventory 📦
+If you want to make the vehicle name show up in QB-Inventory:
+Open `app.js` in `qb-inventory`. In the function `FormatItemInfo` you will find several if statements. Head to the bottom of these and add this before the second to last `else` statement (after the `else if` that has `itemData.name == "labkey"`). Then add this between them:
+```
+else if (itemData.name == "swap_slip") {
+            $(".item-info-title").html("<p>" + itemData.label + "</p>");
+            $(".item-info-description").html("<p>Vehicle: " + itemData.info.vehicle + "</p>");
+        }
+``` 
 
 Also make sure the images are in qb-inventory>html>images
 
