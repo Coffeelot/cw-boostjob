@@ -200,8 +200,8 @@ end
 
 local function carGps()
     -- TODO Fix police gps
+    TriggerEvent('cw-boostjob:client:carTheftCall')
     if QBCore.Functions.GetPlayerData().job.name == 'police' then
-        TriggerEvent('cw-boostjob:client:carTheftCall')
         local vehicleCoords = GetEntityCoords(MissionVehicle)
         policeBlip = AddBlipForEntity(MissionVehicle)
         SetBlipSprite(policeBlip, 161)
@@ -426,6 +426,7 @@ local function SpawnGuards()
         if random == 2 then
             TaskGuardCurrentPosition(npcs['npcguards'][k], 10.0, 10.0, 1)
         end
+        Wait(1000)
     end
 
     SetRelationshipBetweenGroups(0, 'npcguards', 'npcguards')
@@ -476,6 +477,7 @@ local function SpawnCivilians()
                 animation = v.animation
             end
             TaskStartScenarioInPlace(npcs['npccivilians'][k],  animation, 0, true)
+            Wait(1000)
         end
 
         SetRelationshipBetweenGroups(3, 'npccivilians', 'npccivilians')
