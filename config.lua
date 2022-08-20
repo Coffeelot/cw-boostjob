@@ -1,5 +1,7 @@
 Config = {}
 
+Config.UseTokens = false
+
 Config.Cooldown = 1 --- Cooldown until next allowed meth run
 Config.DefaultValues = {
     armor = 10,
@@ -138,11 +140,35 @@ local locations = {
          },
         VehiclePosition = vector4(1446.97, -2612.22, 48.39, 164.47)
     },
+    sandyDesert = {
+        Guards = {
+            { model = 'a_m_m_soucent_01', weapon = 'weapon_pistol', },
+            { model = 'g_m_m_armlieut_01', weapon = 'weapon_pistol' },
+            { model = 'g_m_importexport_01', weapon = 'weapon_machinepistol', accuracy = 5 },
+        },
+        GuardPositions = {
+            vector4(2470.31, 3451.51, 49.83, 30.78),
+            vector4(2486.22, 3444.64, 51.07, 238.82),
+            vector4(2485.66, 3447.15, 51.07, 10.14),
+            vector4(2482.66, 3447.78, 51.07, 108.97),
+            vector4(2483.65, 3446.7, 51.07, 223.21),
+            vector4(2486.95, 3446.1, 51.07, 271.15),
+            vector4(2485.78, 3447.61, 51.07, 330.24),
+            vector4(2483.16, 3449.77, 51.07, 43.09),
+            vector4(2483.91, 3448.53, 51.07, 217.75)
+        },
+        GuardCars = { 
+            { model = 'ratloader', coords = vector4(2464.06, 3447.82, 49.77, 27.66) },
+            { model = 'dune', coords = vector4(2459.66, 3449.5, 49.02, 229.02) }
+         },
+        VehiclePosition = vector4(2481.28, 3437.69, 49.32 , 225.1)
+    },
 }
 -- ElegyRetro job
 
 local ElegyRetroJob = {
     Model = 'elegy',
+    token = 'boostelegyr',
     RunCost = 1000,
     Timer = 30000,
     MissionDescription = "Elegy Retro",
@@ -172,6 +198,7 @@ local ElegyRetroJob = {
 
 local SultanRSJob = {
     Model = 'sultanrs',
+    token = 'boostsultanrs',
     RunCost = 1000,
     Timer = 20000,
     MissionDescription = "Sultan RS",
@@ -202,6 +229,7 @@ local SultanRSJob = {
 
 local BansheeJob = {
     Model = 'banshee2',
+    token = 'boostbanshee',
     RunCost = 1000,
     Timer = 20000,
     MissionDescription = "Banshee 900R",
@@ -230,8 +258,38 @@ local BansheeJob = {
     }
 }
 
+local VoodooJob = {
+    Model = 'voodoo',
+    token = 'boostvoodoo',
+    RunCost = 1000,
+    Timer = 20000,
+    MissionDescription = "Voodoo Custom",
+    Messages = {
+        First = {
+            Sender = 'Hector',
+            Subject = 'Stuff',
+            Message = "I marked the car n shit "
+        },
+        Second = {
+            Sender = 'Hector',
+            Subject = 'Stuff',
+            Message = "You got the Voodoo?? When it's safe I'll drop you the location of where to leave it. If you bring cops you're done."
+        },
+        Third = {
+            Sender = 'Hector',
+            Subject = 'Stuff',
+            Message = "Tight. Enjoy the papers."
+        }
+    },
+    MinimumPolice = 0,
+    Locations = {
+        locations.sandyDesert
+    }
+}
+
 Config.Jobs = {
     ['ElegyRetroJob'] = ElegyRetroJob,
     ['SultanRSJob'] = SultanRSJob,
-    ['BansheeJob'] = BansheeJob
+    ['BansheeJob'] = BansheeJob,
+    ['VoodooJob'] = VoodooJob
 }

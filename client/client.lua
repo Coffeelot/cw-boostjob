@@ -58,6 +58,20 @@ RegisterNetEvent('police:SetCopCount', function(amount)
     CurrentCops = amount
 end)
 
+local function canInteract(value)
+    if onRun then return false end
+    local tokens = nil
+    if Config.UseTokens then
+        QBCore.Functions.TriggerCallback('cw-tokens:server:PlayerHasToken', function(result, value)
+            tokens = result
+        end)
+        Wait(100)
+        if tokens ~=nil and tokens[value] then return true else return false end
+    end
+    local itemInPockets = QBCore.Functions.HasItem('swap_token')
+    if itemInPockets then return true else return false end
+end
+
 --- Create bosses
 CreateThread(function()
     local boss = Config.Boss
@@ -67,11 +81,12 @@ CreateThread(function()
     else
         animation = "WORLD_HUMAN_STAND_IMPATIENT"
     end
+    
     RequestModel(boss.model)
     while not HasModelLoaded(boss.model) do
         Wait(1)
     end
-
+    
     local options = {}
     for i,v in pairs(Config.Jobs) do
         local option = { 
@@ -81,9 +96,7 @@ CreateThread(function()
             icon = "fas fa-circle",
             label = v.MissionDescription,
             canInteract = function()
-                if onRun then return false end
-                local itemInPockets = QBCore.Functions.HasItem('swap_token')
-                if itemInPockets then return true else return false end
+                return canInteract(v.token)
             end
         }
         table.insert(options, option)
@@ -383,6 +396,7 @@ local function SpawnGuards()
 
     for k, v in pairs(CurrentJobLocation.Guards) do
         local guardPosition = v.coords
+        local animation = nil
         if guardPosition == nil then
             if listOfGuardPositions == nil then
                 print('Someone made an oopsie when making guard positions!')

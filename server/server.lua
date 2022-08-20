@@ -8,17 +8,27 @@ RegisterServerEvent('cw-boostjob:server:startr', function(jobId)
     local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
     
-	if Player.PlayerData.money['cash'] >= Config.Jobs[jobId].RunCost then
+
+    if Config.UseTokens then
         currentJobId = jobId
-		Player.Functions.RemoveMoney('cash', Config.Jobs[currentJobId].RunCost, "Running Costs")
-        Player.Functions.RemoveItem('swap_token', 1)
-        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['swap_token'], "remove")
+        TriggerEvent('cw-tokens:server:TakeToken', src, Config.Jobs[jobId].token)
         TriggerClientEvent('QBCore:Notify', src, Lang:t("success.send_email_right_now"), 'success')
         TriggerEvent('cw-boostjob:server:coolout')
-		TriggerClientEvent('cw-boostjob:client:runactivate', src)
-	else
-		TriggerClientEvent('QBCore:Notify', source, Lang:t("error.you_dont_have_enough_money"), 'error')
-	end
+        TriggerClientEvent('cw-boostjob:client:runactivate', src)
+
+    else
+	    if Player.PlayerData.money['cash'] >= Config.Jobs[jobId].RunCost then
+            currentJobId = jobId
+            Player.Functions.RemoveMoney('cash', Config.Jobs[currentJobId].RunCost, "Running Costs")
+            Player.Functions.RemoveItem('swap_token', 1)
+            TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['swap_token'], "remove")
+            TriggerClientEvent('QBCore:Notify', src, Lang:t("success.send_email_right_now"), 'success')
+            TriggerEvent('cw-boostjob:server:coolout')
+            TriggerClientEvent('cw-boostjob:client:runactivate', src)
+        else
+            TriggerClientEvent('QBCore:Notify', source, Lang:t("error.you_dont_have_enough_money"), 'error')
+        end
+    end
 end)
 
 RegisterServerEvent('cw-boostjob:server:giveSlip', function(model)
