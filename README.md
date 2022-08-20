@@ -14,7 +14,9 @@ This is a companion script for [cw-vehicleswap](https://github.com/Coffeelot/cw-
 [Support, updates and script previews](https://discord.gg/FJY4mtjaKr) 👈
 
 # Config 🔧
-The script has Jobs and Locations split up, and randomizes locations each time you take the job. 
+The script has Jobs and Locations split up, and randomizes locations each time you take the job.\
+
+At the top of the Config you will find `Config.UseTokens = false`. Change `false` to `true` if you want to use [cw-tokens](https://github.com/Coffeelot/cw-tokens).
 ## locations object
 **Guards**: This holds all the guards. Guards are defined with `model`, `weapon` and (optionally if you add `GuardPositions`) `coords`\
 **GuardPositions**: Holds Vector4s of potential positions guards can be placed at\
