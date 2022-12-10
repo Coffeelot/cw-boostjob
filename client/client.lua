@@ -388,7 +388,6 @@ local function SpawnGuards()
     SetPedRelationshipGroupHash(ped, 'PLAYER')
     AddRelationshipGroup('npcguards')
     
-    
     local listOfGuardPositions = nil
     if CurrentJobLocation.GuardPositions ~= nil then
         listOfGuardPositions = shallowCopy(CurrentJobLocation.GuardPositions) -- these are used if random positions
@@ -431,6 +430,7 @@ local function SpawnGuards()
         SetPedCanSwitchWeapon(npcs['npcguards'][k], true)
         SetPedDropsWeaponsWhenDead(npcs['npcguards'][k], false)
         SetPedFleeAttributes(npcs['npcguards'][k], 0, false)
+        SetPedCombatAttributes(npcs['npcguards'][k], 46, true)
         local weapon = 'WEAPON_PISTOL'
         if v.weapon then
             weapon = v.weapon
@@ -651,17 +651,6 @@ local function StartMinigame()
         end, 8, 5, 3) -- Success       
     end
 end
-
-RegisterNetEvent('cw-boostjob:client:items', function()
-    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
-        if result then
-            TriggerEvent("qb-dispatch:raidJob")
-            StartMinigame()
-        else
-            QBCore.Functions.Notify(Lang:t("error.you_cannot_do_this"), 'error')
-        end
-    end, "casekey")
-end)
 
 RegisterNetEvent('cw-boostjob:client:carTheftCall', function()
     if not isLoggedIn then return end
