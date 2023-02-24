@@ -1,5 +1,4 @@
 local QBCore = exports['qb-core']:GetCoreObject() 
-local currentJobId = nil
 local Cooldown = false
 
 
@@ -10,7 +9,6 @@ RegisterServerEvent('cw-boostjob:server:startr', function(jobId)
     
 
     if Config.UseTokens then
-        currentJobId = jobId
         TriggerEvent('cw-tokens:server:TakeToken', src, Config.Jobs[jobId].token)
         TriggerClientEvent('QBCore:Notify', src, Lang:t("success.send_email_right_now"), 'success')
         TriggerEvent('cw-boostjob:server:coolout')
@@ -18,8 +16,7 @@ RegisterServerEvent('cw-boostjob:server:startr', function(jobId)
 
     else
 	    if Player.PlayerData.money['cash'] >= Config.Jobs[jobId].RunCost then
-            currentJobId = jobId
-            Player.Functions.RemoveMoney('cash', Config.Jobs[currentJobId].RunCost, "Running Costs")
+            Player.Functions.RemoveMoney('cash', Config.Jobs[jobId].RunCost, "Running Costs")
             Player.Functions.RemoveItem('swap_token', 1)
             TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['swap_token'], "remove")
             TriggerClientEvent('QBCore:Notify', src, Lang:t("success.send_email_right_now"), 'success')
