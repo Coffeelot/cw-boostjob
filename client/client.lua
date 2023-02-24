@@ -23,6 +23,10 @@ local npcs = {
 
 local npcVehicles = {}
 
+local function cancelEmote()
+    TriggerEvent('animations:client:EmoteCommandStart', {Config.ChopEmote})
+end
+
 function dump(o)
     if type(o) == 'table' then
        local s = '{ '
@@ -60,14 +64,6 @@ end)
 
 local function canInteract(value)
     if onRun then return false end
-    local tokens = nil
-    if Config.UseTokens then
-        QBCore.Functions.TriggerCallback('cw-tokens:server:PlayerHasToken', function(result, value)
-            tokens = result
-        end)
-        Wait(100)
-        if tokens ~=nil and tokens[value] then return true else return false end
-    end
     local itemInPockets = QBCore.Functions.HasItem('swap_token')
     if itemInPockets then return true else return false end
 end
@@ -96,7 +92,14 @@ CreateThread(function()
             icon = "fas fa-circle",
             label = v.MissionDescription,
             canInteract = function()
-                return canInteract(v.token)
+                if Config.UseTokens then
+                    local tokens = nil
+                    local res = exports['cw-tokens']:hasToken(v.token)
+                    return res
+                else
+                    local res= canInteract(v.token)
+                    return res
+                end
             end
         }
         table.insert(options, option)
@@ -120,9 +123,6 @@ CreateThread(function()
     --TODO add interaction with key box
 
 end)
-
-
-
 
 local function CleanUp()
     for i,npcType in pairs(npcs) do
@@ -225,14 +225,12 @@ local function carGps()
     end
 end
 
-local function TurnInCar()
+local function TurnInCar(vehicle)
     exports['qb-core']:HideText()
-    local player = PlayerPedId()
-    local vehicle = GetVehiclePedIsIn(player, false)
-    CarTurnedInMessage()
     QBCore.Functions.DeleteVehicle(vehicle)
     RemoveBlip(deliveryBlip)
     CleanUp()
+    CarTurnedInMessage()
     onRun = false
 end
 
@@ -240,7 +238,27 @@ local function CheckForKeypress()
     if next(DropoffSpotData) then
         CreateThread(function()
             while next(DropoffSpotData) do
-                if IsControlJustReleased(0, 38) then TurnInCar() return end
+                if IsControlJustReleased(0, 38) then 
+                    local Player = PlayerPedId()
+                    local vehicle = GetVehiclePedIsUsing(Player)
+                    TaskLeaveVehicle(Player, vehicle, 0)
+                    TaskTurnPedToFaceEntity(Player, vehicle)
+                    Citizen.SetTimeout(4000, function()
+                        TriggerEvent('animations:client:EmoteCommandStart', {Config.ChopEmote})
+                        QBCore.Functions.Progressbar("boostChop", "Removing parts", Config.Choptimer, false, true, {
+                            disableMovement = true,
+                            disableCarMovement = true,
+                            disableMouse = false,
+                            disableCombat = true,
+                        }, {}, {}, {}, function()
+                            cancelEmote()
+                            TurnInCar(vehicle)
+                        end, function() -- Cancel
+                            QBCore.Functions.Notify("Canceled", "error")
+                            cancelEmote()
+                        end)
+                    end)
+                    return end
                 Wait(0)
             end
         end)

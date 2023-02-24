@@ -7,6 +7,8 @@ Config.DefaultValues = {
     armor = 10,
     accuracy = 40,
 }
+Config.Choptimer = 20000
+Config.ChopEmote = "welding"
 
 Config.DropoffLocations = {
     vector4(447.17, 3523.33, 33.21, 20),
